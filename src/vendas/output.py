@@ -20,8 +20,14 @@ def formatar_texto(resultado: Dict) -> str:
     
     produto = resultado['produto_mais_vendido']
     quantidade = resultado['quantidade_mais_vendido']
+    
     if produto:
-        linhas.append(f'Produto Mais Vendido: {produto} ({quantidade} vendas)')
+        if 'produtos_empatados' in resultado and len(resultado['produtos_empatados']) > 1:
+            produtos = resultado['produtos_empatados']
+            produtos_str = ', '.join(produtos)
+            linhas.append(f'Produtos Mais Vendidos (empatados): {produtos_str} ({quantidade} vendas cada)')
+        else:
+            linhas.append(f'Produto Mais Vendido: {produto} ({quantidade} vendas)')
     else:
         linhas.append('Produto Mais Vendido: N/A')
     

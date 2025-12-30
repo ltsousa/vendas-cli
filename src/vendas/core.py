@@ -28,7 +28,7 @@ def calcular_valor_total(vendas: List[Dict[str, str]]) -> Decimal:
     return total
 
 
-def encontrar_produto_mais_vendido(vendas: List[Dict[str, str]]) -> Tuple[str, int]:
+def encontrar_produto_mais_vendido(vendas: List[Dict[str, str]]) -> Tuple[str, int, List[str]]:
     contagem = {}
     for venda in vendas:
         produto = venda.get('produto', '')
@@ -36,21 +36,31 @@ def encontrar_produto_mais_vendido(vendas: List[Dict[str, str]]) -> Tuple[str, i
             contagem[produto] = contagem.get(produto, 0) + 1
     
     if not contagem:
-        return '', 0
+        return '', 0, []
     
-    produto_mais_vendido = max(contagem.items(), key=lambda x: x[1])
-    return produto_mais_vendido
+    maior_quantidade = max(contagem.values())
+    produtos_empatados = [produto for produto, qtd in contagem.items() if qtd == maior_quantidade]
+    produtos_empatados.sort()
+    
+    produto_principal = produtos_empatados[0] if produtos_empatados else ''
+    
+    return produto_principal, maior_quantidade, produtos_empatados
 
 
 def processar_vendas(vendas: List[Dict[str, str]]) -> Dict:
     total_por_produto = calcular_total_por_produto(vendas)
     valor_total = calcular_valor_total(vendas)
-    produto_mais_vendido, quantidade = encontrar_produto_mais_vendido(vendas)
+    produto_mais_vendido, quantidade, produtos_empatados = encontrar_produto_mais_vendido(vendas)
     
-    return {
+    resultado = {
         'total_por_produto': {k: str(v) for k, v in total_por_produto.items()},
         'valor_total': str(valor_total),
         'produto_mais_vendido': produto_mais_vendido,
         'quantidade_mais_vendido': quantidade
     }
+    
+    if len(produtos_empatados) > 1:
+        resultado['produtos_empatados'] = produtos_empatados
+    
+    return resultado
 
