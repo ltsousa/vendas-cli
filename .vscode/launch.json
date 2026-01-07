@@ -1,0 +1,68 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug vendas-cli (sample)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "vendas.cli",
+            "args": [
+                "vendas_sample.csv",
+                "--start",
+                "2024-01-01",
+                "--end",
+                "2024-12-31"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": true,
+            "python": "${workspaceFolder}/.venv/bin/python"
+        },
+        {
+            "name": "Debug vendas-cli (empate)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "vendas.cli",
+            "args": [
+                "vendas_empate_teste.csv",
+                "--start",
+                "2024-01-01",
+                "--end",
+                "2024-12-31"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": true,
+            "python": "${workspaceFolder}/.venv/bin/python"
+        },
+        {
+            "name": "Debug vendas-cli (JSON)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "vendas.cli",
+            "args": [
+                "vendas_sample.csv",
+                "--start",
+                "2024-01-01",
+                "--end",
+                "2024-12-31",
+                "--format",
+                "json"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": true,
+            "python": "${workspaceFolder}/.venv/bin/python"
+        },
+        {
+            "name": "Debug Arquivo Atual",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": true,
+            "python": "${workspaceFolder}/.venv/bin/python"
+        }
+    ]
+}

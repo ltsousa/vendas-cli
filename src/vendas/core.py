@@ -1,5 +1,6 @@
 from typing import List, Dict, Tuple
 from decimal import Decimal, InvalidOperation
+from collections import defaultdict
 
 
 def calcular_total_por_produto(vendas: List[Dict[str, str]]) -> Dict[str, Decimal]:
@@ -45,6 +46,43 @@ def encontrar_produto_mais_vendido(vendas: List[Dict[str, str]]) -> Tuple[str, i
     produto_principal = produtos_empatados[0] if produtos_empatados else ''
     
     return produto_principal, maior_quantidade, produtos_empatados
+
+def processar_vendas_com_desconto(vendas: List[Dict]) -> List[Dict]:
+
+    produtos = defaultdict(lambda: {'quantidade': 0, 'valor_total': Decimal('0')})
+    
+    for venda in vendas:
+        produto = venda['produto']
+        quantidade = int(venda['quantidade'])
+        preco_unitario = Decimal(str(venda['preco_unitario']))
+        
+        valor_venda = preco_unitario * quantidade
+        
+        produtos[produto]['quantidade'] += quantidade
+        produtos[produto]['valor_total'] += valor_venda
+    
+    resultado = []
+    for produto, dados in produtos.items():
+        quantidade_total = dados['quantidade']
+        valor_total = dados['valor_total']
+        
+        if quantidade_total >= 5:
+            desconto = valor_total * Decimal('0.10')
+            valor_final = valor_total - desconto
+        else:
+            desconto = Decimal('0')
+            valor_final = valor_total
+        
+        resultado.append({
+            'produto': produto,
+            'quantidade_total': quantidade_total,
+            'valor_total': float(valor_final),
+            'desconto_aplicado': float(desconto)
+        })
+    
+    resultado.sort(key=lambda item: item['valor_total'], reverse=True)
+    
+    return resultado
 
 
 def processar_vendas(vendas: List[Dict[str, str]]) -> Dict:
